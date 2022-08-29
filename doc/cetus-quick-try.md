@@ -138,4 +138,6 @@ grant all privileges on *.* to 'default-user'@'%';
 2. 不要在分布式事务中使用隐式提交的SQL（如DDL），否则XA协议会报错：ERROR 1399 (XAE07): XAER_RMFAIL
 
 ## demo测试：
+```
 mysql --prompt="proxy> " --comments -h 47.117.169.27 -P 8888 -uroot -p111
+```
