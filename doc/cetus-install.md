@@ -18,6 +18,10 @@ CentOS 系统可以通过以下命令安装依赖包：
 yum install cmake gcc glib2-devel flex mysql-devel gperftools-libs zlib-devel -y 
 ```
 
+```
+yum install make -y 
+```
+
 SUSE 系统可以通过以下命令安装依赖包:
 
 ```
