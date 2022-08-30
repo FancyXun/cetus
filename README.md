@@ -166,7 +166,7 @@ proxy.conf
 # Proxy Configuration, For example: MySQL master and salve host ip are both 192.0.0.1
 proxy-address=0.0.0.0:6001
 proxy-backend-addresses=47.117.169.27:8888
-proxy-read-only-backend-addresses=47.117.169.27:8888
+proxy-read-only-backend-addresses=47.117.169.27:8889
 ```
 users.json
 ```
