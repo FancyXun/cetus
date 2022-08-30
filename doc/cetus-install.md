@@ -23,7 +23,7 @@ yum install make net-tools -y
 ```
 
 ```
-yum install mysql
+yum install mysql gdb -y
 ```
 
 SUSE 系统可以通过以下命令安装依赖包:
