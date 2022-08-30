@@ -189,6 +189,14 @@ bin/cetus --defaults-file=conf/proxy.conf
 mysql --prompt="proxy> " --comments -h 127.0.0.1 -P 6001 -uroot -p111
 ```
 
+#### gdb调试
+```
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/user/cetus_install/lib/"
+```
+```
+gdb --args /home/user/cetus_install/libexec/cetus --defaults-file=conf/proxy.conf
+```
+
 ## 反馈
 
 如果您在使用Cetus的过程中发现BUG或者有新的功能需求，欢迎在issue里面提出来。
