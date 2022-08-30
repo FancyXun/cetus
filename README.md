@@ -160,7 +160,7 @@ cd /home/user/cetus_install/
 cp proxy.conf.example proxy.conf
 cp users.json.example users.json
 ```
-修改proxy.conf 和users.json的Mysql地址、用户名、密码，以下供参考
+修改proxy.conf 和users.json的Mysql地址、用户名、密码，以下供参考  
 proxy.conf
 ```
 # Proxy Configuration, For example: MySQL master and salve host ip are both 192.0.0.1
