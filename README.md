@@ -167,6 +167,10 @@ proxy.conf
 proxy-address=0.0.0.0:6001
 proxy-backend-addresses=47.117.169.27:8888
 proxy-read-only-backend-addresses=47.117.169.27:8889
+
+# 创建默认数据库test_cetus
+default-db=test_cetus
+default-username=root
 ```
 users.json
 ```
