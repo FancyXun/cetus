@@ -193,12 +193,28 @@ bin/cetus --defaults-file=conf/proxy.conf
 mysql --prompt="proxy> " --comments -h 127.0.0.1 -P 6001 -uroot -p111
 ```
 
-#### gdb调试
+#### gdb调试方法一
 ```
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/user/cetus_install/lib/"
 ```
 ```
 gdb --args /home/user/cetus_install/libexec/cetus --defaults-file=conf/proxy.conf
+```
+
+#### gdb调试方法二
+```
+ gdb attach pid
+```
+以下为例子，调试时替换地址即可
+```
+(gdb) b src/network-mysqld.c:4390
+...
+...
+打印client发过来的sql
+(gdb) p con->orig_sql
+$9 = (GString *) 0x3a5faa00
+(gdb) p *(GString *) 0x3a5faa00
+
 ```
 
 ## 反馈
