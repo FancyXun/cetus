@@ -4389,6 +4389,7 @@ network_mysqld_con_handle(int event_fd, short events, void *user_data)
     g_debug("%s:visit network_mysqld_con_handle", G_STRLOC);
     network_mysqld_con_state_t ostate;
     network_mysqld_con *con = user_data;
+    g_critical("-----sql: %s", con->orig_sql->str);
     chassis *srv = con->srv;
     int retval;
 
