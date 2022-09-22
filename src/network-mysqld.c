@@ -76,6 +76,7 @@
 #include "network-ssl.h"
 #include "chassis-sql-log.h"
 #include "cetus-acl.h"
+#include <Python.h>
 
 #ifdef HAVE_WRITEV
 #define USE_BUFFERED_NETIO
