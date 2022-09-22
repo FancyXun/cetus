@@ -212,6 +212,11 @@ else(HAVE_TCMALLOC)
         )
 endif(HAVE_TCMALLOC)
 
+# Support Python
+FIND_PACKAGE(PythonLibs REQUIRED)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES(cetus ${PYTHON_LIBRARIES})
+
 # Unix platforms provide a wrapper script to avoid relinking at install time
 # figure out the correct name of the shared linker lookup path for this system, default to LD_LIBRARY_PATH
 SET(DYNLIB_PATH_VAR "LD_LIBRARY_PATH")
