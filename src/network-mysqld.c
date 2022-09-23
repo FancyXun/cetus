@@ -4388,7 +4388,7 @@ char *sql_enc(const char *sql, const char *db)
     PyObject *pmodule = PyImport_ImportModule("c_eulerdb"); 
     if (!pmodule)
     {
-        printf("cannot find call_py.py\n");
+        printf("cannot find c_eulerdb\n");
         return (char *) "NULL";
     }
     else
@@ -4444,6 +4444,7 @@ network_mysqld_con_handle(int event_fd, short events, void *user_data)
     network_mysqld_con *con = user_data;
     g_critical("--------sql: %s", con->orig_sql->str);
     char *enc_sql = sql_enc(con->orig_sql->str, "database_name");
+    g_critical("--------enc_sql: %s", enc_sql);
     chassis *srv = con->srv;
     int retval;
 
