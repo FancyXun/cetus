@@ -4377,6 +4377,58 @@ process_timeout_event(network_mysqld_con *con)
     }
 }
 
+
+char *sql_enc(const char *sql, const char *db)
+{
+    Py_Initialize();
+    if (!Py_IsInitialized())
+    {
+        return (char *)"NULL"; //init python failed
+    }
+    PyObject *pmodule = PyImport_ImportModule("c_eulerdb"); 
+    if (!pmodule)
+    {
+        printf("cannot find call_py.py\n");
+        return (char *) "NULL";
+    }
+    else
+    {
+        printf("PyImport_ImportModule success\n");
+    }
+ 
+    PyObject *pfunc = PyObject_GetAttrString(pmodule, "sql_enc"); 
+    if (!pfunc)
+    {
+        printf("cannot find func\n");
+        Py_XDECREF(pmodule);
+        return (char *) "NULL";
+    }
+    else
+    {
+        printf("PyObject_GetAttrString success\n");
+    }
+    
+    PyObject *pArgs = PyTuple_New(2);
+    PyObject *pVender = Py_BuildValue("s", sql);     
+    PyObject *pDataID = Py_BuildValue("s", db);
+ 
+    PyTuple_SetItem(pArgs, 0, pVender);
+    PyTuple_SetItem(pArgs, 1, pDataID);
+    
+    PyObject *pResult = PyObject_CallObject(pfunc, pArgs);
+    char *new_sql = PyBytes_AsString(pResult);;
+    char *res = (char*)malloc(strlen(new_sql));;
+    // memcpy(res,new_sql,strlen(new_sql)+1);
+    strcpy(res, new_sql);
+    Py_XDECREF(pmodule);
+    Py_XDECREF(pfunc);
+    Py_XDECREF(pArgs);
+    Py_XDECREF(pResult);
+    Py_Finalize();
+    
+    return res;
+}
+
 /**
  * handle the different states of the MySQL protocol
  *
@@ -4390,7 +4442,8 @@ network_mysqld_con_handle(int event_fd, short events, void *user_data)
     g_debug("%s:visit network_mysqld_con_handle", G_STRLOC);
     network_mysqld_con_state_t ostate;
     network_mysqld_con *con = user_data;
-    g_critical("-----sql: %s", con->orig_sql->str);
+    g_critical("--------sql: %s", con->orig_sql->str);
+    char *enc_sql = sql_enc(con->orig_sql->str, "database_name");
     chassis *srv = con->srv;
     int retval;
 
