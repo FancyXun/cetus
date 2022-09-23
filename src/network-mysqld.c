@@ -102,10 +102,6 @@
 
 extern int      cetus_last_process;
 
-// import python sdk
-PyObject *pmodule = PyImport_ImportModule("c_eulerdb"); 
-PyObject *pfunc = PyObject_GetAttrString(pmodule, "sql_enc"); 
-
 static void network_mysqld_self_con_handle(int event_fd, short events, void *user_data);
 static network_socket_retval_t network_mysqld_process_select_resp(network_mysqld_con *con, 
         network_socket *server, int *finish_flag, int *disp_flag);
@@ -4389,6 +4385,10 @@ static char *sql_enc(const char *sql, const char *db)
     {
         return (char *)"NULL"; //init python failed
     }
+
+    // import python sdk
+    PyObject *pmodule = PyImport_ImportModule("c_eulerdb"); 
+    PyObject *pfunc = PyObject_GetAttrString(pmodule, "sql_enc"); 
     PyObject *pArgs = PyTuple_New(2);
     PyObject *pVender = Py_BuildValue("s", sql);     
     PyObject *pDataID = Py_BuildValue("s", db);
