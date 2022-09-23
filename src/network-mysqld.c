@@ -4378,7 +4378,7 @@ process_timeout_event(network_mysqld_con *con)
 }
 
 
-char *sql_enc(const char *sql, const char *db)
+static char *sql_enc(const char *sql, const char *db)
 {
     Py_Initialize();
     if (!Py_IsInitialized())
@@ -4386,27 +4386,7 @@ char *sql_enc(const char *sql, const char *db)
         return (char *)"NULL"; //init python failed
     }
     PyObject *pmodule = PyImport_ImportModule("c_eulerdb"); 
-    if (!pmodule)
-    {
-        printf("cannot find c_eulerdb\n");
-        return (char *) "NULL";
-    }
-    else
-    {
-        printf("PyImport_ImportModule success\n");
-    }
- 
     PyObject *pfunc = PyObject_GetAttrString(pmodule, "sql_enc"); 
-    if (!pfunc)
-    {
-        printf("cannot find func\n");
-        Py_XDECREF(pmodule);
-        return (char *) "NULL";
-    }
-    else
-    {
-        printf("PyObject_GetAttrString success\n");
-    }
     
     PyObject *pArgs = PyTuple_New(2);
     PyObject *pVender = Py_BuildValue("s", sql);     
