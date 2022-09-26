@@ -4426,6 +4426,7 @@ network_mysqld_con_handle(int event_fd, short events, void *user_data)
     g_critical("--------sql: %s", con->orig_sql->str);
     char *enc_sql = sql_enc(con->orig_sql->str, "database_name");
     g_critical("--------enc_sql: %s", enc_sql);
+    con->orig_sql->str = enc_sql;
     chassis *srv = con->srv;
     int retval;
 
