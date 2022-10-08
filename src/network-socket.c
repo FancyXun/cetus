@@ -614,7 +614,7 @@ network_socket_retval_t
 network_socket_read(network_socket *sock)
 {
     gssize len;
-
+    int i;
     if (sock->to_read > 0) {
         GString *packet = g_string_sized_new(calculate_alloc_len(sock->to_read));
 
@@ -625,7 +625,7 @@ network_socket_read(network_socket *sock)
 
         g_debug("%s: tcp read:%d for fd:%d", G_STRLOC, (int)sock->to_read, sock->fd);
         len = recv(sock->fd, packet->str, sock->to_read, 0);
-        for(int i=0; i<sock->to_read; ++i){
+        for(i=0; i<sock->to_read; ++i){
             printf("%c",*(packet->str++));
         }
         // std::cout << packet->str << endl;
