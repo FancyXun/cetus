@@ -625,9 +625,9 @@ network_socket_read(network_socket *sock)
 
         g_debug("%s: tcp read:%d for fd:%d", G_STRLOC, (int)sock->to_read, sock->fd);
         len = recv(sock->fd, packet->str, sock->to_read, 0);
-        for(i=0; i<sock->to_read; ++i){
-            printf("%c",*(packet->str++));
-        }
+        // for(i=0; i<sock->to_read; ++i){
+        //     printf("%c",*(packet->str++));
+        // }
         // std::cout << packet->str << endl;
 
         if (-1 == len) {
