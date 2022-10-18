@@ -4377,6 +4377,39 @@ process_timeout_event(network_mysqld_con *con)
     }
 }
 
+char* 
+py_sql_enc(char* origin_sql)
+{
+    Py_Initialize();
+    PyRun_SimpleString("import sys");
+    PyRun_SimpleString("sys.path.append('../')");
+    PyObject* pModule = PyImport_ImportModule("test_sdk");
+    if(pModule ==NULL){
+        printf("module not found \n");
+        return "-1";
+    }
+    // char* ss;
+    PyObject* pFunc= PyObject_GetAttrString(pModule,"enc_sql");
+    PyObject* pArgs = PyTuple_New(1);
+    PyObject* pArgDict = PyDict_New();
+    PyDict_SetItemString(pArgDict,"db",Py_BuildValue("s","value"));
+    PyDict_SetItemString(pArgDict,"sql",Py_BuildValue("s","select * from test limit 1"));
+    PyTuple_SetItem(pArgs,0,pArgDict);
+//    PyTuple_SetItem(pArgs,1,Py_BuildValue("i",2));
+//    PyObject* args = Py_BuildValue("s",sql);
+    PyObject* pReturn = PyObject_CallObject(pFunc,pArgs);
+    char *new_sql ;
+    PyArg_Parse(pReturn,"s", &new_sql);
+    return new_sql;
+    // printf("new_sql:%s\n",ss);
+
+    // if (Py_FinalizeEx() < 0) {
+    //     exit(120);
+    // }
+    // return 0;
+}
+
+
 /**
  * handle the different states of the MySQL protocol
  *
@@ -4390,7 +4423,10 @@ network_mysqld_con_handle(int event_fd, short events, void *user_data)
     g_debug("%s:visit network_mysqld_con_handle", G_STRLOC);
     network_mysqld_con_state_t ostate;
     network_mysqld_con *con = user_data;
-    g_critical("-----sql: %s", con->orig_sql->str);
+    g_critical("%s-----orig sql: %s",G_STRLOC, con->orig_sql->str);
+    g_critical("%s-----modified sql: %s",G_STRLOC, con->modified_sql->str);
+    con->modified_sql=py_sql_enc(con->modified_sql)
+    g_critical("%s-----encrypted sql:%s",G_STRLOC, con->modified_sql->str);
     chassis *srv = con->srv;
     int retval;
 
